@@ -1,3 +1,3 @@
 # providega
 
-get
+ge
