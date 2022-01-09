@@ -240,6 +240,7 @@
                                                     <th class="text-center"></th>
                                                     <?php } else if($pageTitle == 'Deposits') {?>
                                                     <th><?php echo lang('status') ?></th>
+                                                    <th><?php echo 'package' ?></th>
                                                     <?php } else if($pageTitle == 'Withdrawals') {?>
                                                     <th class="text-center"></th>
                                                     <?php }?>
@@ -332,6 +333,7 @@
                                                         <?php echo lang('not_approved') ?>
                                                     <?php }?>
                                                     </td>
+                                                    <td> <?php echo $transaction->name ?> </td>
                                                     <?php } ?>
                                                     <?php } ?>
                                                     <?php if($pageTitle == 'Withdrawals') {?>
@@ -724,9 +726,21 @@
                                 var divClose = '</div>'
 
                                 if(content.data.status == '0' || content.data.status == '1'){
-                                    div.innerHTML += divOpen + div1 + div2 + div3 + div4 + div5 + div6 + div7 + div8 + div9 + div10 + divClose;
+                                    if(content.method == 'MTN MOMO'){
+                                        div.innerHTML += divOpen   + div3 + div4 + div5 + div6   + div9 + div10 + divClose;
+                                    }
+                                     else{
+                                        div.innerHTML += divOpen + div1 + div2 + div3 + div4 + div5 + div6 + div7 + div8 + div9 + div10 + divClose;
+                                     }
+    
                                 } else {
-                                    div.innerHTML += divOpen + div1 + div2 + div3 + div4 + div5 + div6 + div7 + div8 + div9 + div10 + div11 + div12 + divClose;
+                                    if(content.method == 'MTN MOMO'){
+                                        div.innerHTML += divOpen  + div3 + div4 + div5 + div6  + div9 + div10 + div11 + div12 + divClose;
+                                    }
+                                    else{
+                                        div.innerHTML += divOpen + div1 + div2 + div3 + div4 + div5 + div6 + div7 + div8 + div9 + div10 + div11 + div12 + divClose;
+                                    }
+                                   
                                 }
                             } else {
                                 var divOpen = '<div class="row col-md-12">'

@@ -167,13 +167,13 @@ class Transactions extends BaseController
             $this->load->library('form_validation');
             
             $this->form_validation->set_rules('plan','Plan','required', array(
-                'required' => lang('this_field_is_required')
+                'required' => lang('this_field_is_required').' plan'
             ));
             $this->form_validation->set_rules('amount','Amount','required', array(
-                'required' => lang('this_field_is_required')
+                'required' => lang('this_field_is_required').' Amount'
             ));
             $this->form_validation->set_rules('payMethod','Payment Method','required', array(
-                'required' => lang('this_field_is_required')
+                'required' => lang('this_field_is_required').' Payment Method'
             ));
 
             if($this->form_validation->run() == FALSE)
@@ -211,7 +211,7 @@ class Transactions extends BaseController
                         
                             $this->session->set_userdata($paymentData);
                             // 'item' will be erased after 300 seconds
-                            $this->session->mark_as_temp(array('DepositAmount', 'planId'), 300);
+                            $this->session->mark_as_temp(array('DepositAmount', 'planId'), 7200);
                             redirect('/bank-transfer');
                         } else if($type == 'manual') {
                             $paymentData = array(
@@ -223,7 +223,9 @@ class Transactions extends BaseController
                         
                             $this->session->set_userdata($paymentData);
                             // 'item' will be erased after 300 seconds
-                            $this->session->mark_as_temp(array('DepositAmount', 'planId'), 300);
+                            $this->session->mark_as_temp(array('DepositAmount', 'planId'), 7200);
+                            if($method_data->name == "MTN MOMO")
+                               redirect('https://wa.me/+237699861245');
                             redirect('/manual-payment');
                         } else if($type == 'wallet') {
                             //Check wallet amount
@@ -297,7 +299,7 @@ class Transactions extends BaseController
                         
                             $this->session->set_userdata($paymentData);
                             // 'item' will be erased after 300 seconds
-                            $this->session->mark_as_temp(array('DepositAmount', 'planId'), 300);
+                            $this->session->mark_as_temp(array('DepositAmount', 'planId'), 7200);
 
                             redirect('/stripe-payment');
                         } else if($paymentMethodAPI == 'PayPal'){
@@ -419,7 +421,7 @@ class Transactions extends BaseController
                         
                             $this->session->set_userdata($paymentData);
                             // 'item' will be erased after 300 seconds
-                            $this->session->mark_as_temp(array('DepositAmount', 'planId'), 300);
+                            $this->session->mark_as_temp(array('DepositAmount', 'planId'), 7200);
     
                             redirect('/coin-payment');
                         } else if($paymentMethodAPI == 'BTCPay'){
@@ -462,7 +464,7 @@ class Transactions extends BaseController
                         
                             $this->session->set_userdata($paymentData);
                             // 'item' will be erased after 300 seconds
-                            $this->session->mark_as_temp(array('DepositAmount', 'planId'), 300);
+                            $this->session->mark_as_temp(array('DepositAmount', 'planId'), 7200);
                             redirect('/paystack');
                         } else if($paymentMethodAPI == 'Coinbase Commerce'){
                             $this->load->library('coinbaselib');
@@ -512,6 +514,7 @@ class Transactions extends BaseController
                     $this->session->set_flashdata('error', lang('please_input_the_correct_amount_according_to_your_plan'));
                 }
             } 
+           // var_dump($data);
             $this->loadViews("transactions/new", $this->global, $data);   
         } 
         else
@@ -2287,9 +2290,20 @@ class Transactions extends BaseController
                     'required' => lang('this_field_is_required')
                 ));
             } else {
-                $this->form_validation->set_rules('account','Account','required', array(
-                    'required' => lang('this_field_is_required')
-                ));
+                $withdrawal_method = $this->payments_model->getPaymentMethodById($method)->name;
+                if($withdrawal_method == 'MTN MOMO'){
+                    $this->form_validation->set_rules('momo_name','MOMO Name','required', array(
+                        'required' => lang('this_field_is_required')
+                    ));
+                    $this->form_validation->set_rules('momo_number','MOMO Number','required', array(
+                        'required' => lang('this_field_is_required')
+                    ));
+                }else{
+                    $this->form_validation->set_rules('account','Account','required', array(
+                        'required' => lang('this_field_is_required')
+                    ));
+                }
+                
             }
 
             if($this->form_validation->run() == FALSE)
@@ -2373,10 +2387,19 @@ class Transactions extends BaseController
                             $account_number = $this->input->post('account_number');
                             $swift_code = $this->input->post('swift_code');
                         } else {
-                            $withdrawal_account = $this->input->post('account');
+                          
                             $bank_name = NULL;
-                            $account_name = NULL;
-                            $account_number = NULL;
+                            if($withdrawal_method == 'MTN MOMO'){
+                                $withdrawal_account = NULL;
+                                $account_name = $this->input->post('momo_name');
+                                $account_number = $this->input->post('momo_number');
+                            }
+                            else{
+                                $withdrawal_account = $this->input->post('account');
+                                $account_name = NULL;
+                                $account_number = NULL;
+                            }
+                            
                             $swift_code = NULL;
                         }
 

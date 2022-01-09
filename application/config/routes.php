@@ -82,6 +82,7 @@ $route['settings'] = 'settings/settings';
 $route['settings/companyInfo'] = 'settings/companyInfoUpdate';
 $route['settings/emailInfo'] = 'settings/emailInfoUpdate';
 $route['settings/email_templates'] = 'settings/email_templates';
+$route['settings/testEmail'] = 'settings/testEmail';
 $route['settings/edit_email'] = 'settings/editEmailTemplate';
 $route['emailTemplate'] = "Settings/email_template"; 
 $route['paymentAPIInfo'] = "settings/addons_info";

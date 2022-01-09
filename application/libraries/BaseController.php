@@ -397,13 +397,21 @@ class BaseController extends CI_Controller {
 		} else if($companyInfo['SMTPProtocol'] == 'mail'){
 			$mail->isMail();
 		}
+
         $mail->Host = $companyInfo['SMTPHost'];
         $mail->SMTPAuth = true;
         $mail->Username = $companyInfo['SMTPUser'];
         $mail->Password = $companyInfo['SMTPPass'];
         $mail->SMTPSecure = 'tls';
         $mail->Port = $companyInfo['SMTPPort'];
-        
+        $mail->SMTPOptions = array(
+			'ssl' => array(
+			'verify_peer' => false,
+			'verify_peer_name' => false,
+			'allow_self_signed' => true
+			)
+		);
+
         $mail->setFrom($companyInfo['SMTPUser'], $companyInfo['name']);
         $mail->addReplyTo($companyInfo['SMTPUser'], 'Support');
 
@@ -422,14 +430,15 @@ class BaseController extends CI_Controller {
 
         $mail->Body = $mailContent;
 
+		
         //Send email
         if(!$mail->send()){
             //echo 'Message Could not be sent.';
 			//echo 'Mailer error: '. $mail->ErrorInfo;
-			return FALSE;
+			return FALSE ;//$mail->ErrorInfo;
         }else{
 			//echo 'Message has been sent';
-			return TRUE;
+			return tRUE ;//$mail->ErrorInfo;
         }
 	}
 

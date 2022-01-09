@@ -52,7 +52,7 @@
                                                 <div class="display-3 font-weight-600 mb-1 init-counter">
                                                 <?php echo lang('pay') ?> <?php echo to_currency($payment); ?> </div>
                                                 <span class="d-block">
-                                                <?php echo lang('please_make_a_payment_within_5_minutes') ?></span>
+                                                <?php echo 'Please make a payment within  2 hours' ?></span>
                                             </div>
                                             <!-- /media body -->
 

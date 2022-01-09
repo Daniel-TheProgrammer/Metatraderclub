@@ -248,7 +248,7 @@
                                                         <select class="form-control" name="plan" id="simple-select">
                                                             <option value="" selected disabled hidden><?php echo lang("select_investment_plan") ?></option>
                                                             <?php foreach($plans as $plan) { ?>
-                                                            <option value="<?php echo $plan->id ?>">
+                                                            <option value="<?php echo $plan->id ?>" data-amount="<?php echo $plan->maxInvestment?>" >
                                                                 <?php echo $plan->name.' at '.$plan->profit.'% '.$plan->periodName.' investment: '.to_currency($plan->minInvestment).' - '.to_currency($plan->maxInvestment)  ?>
                                                             </option>
                                                             <?php } ?>
@@ -263,6 +263,8 @@
                                                 <!-- Row -->
                                                 <div class="row">
                                                     <div class="col-md-12" id="with-step-1">
+                                                        
+                                                        <?php if(strpos($_SERVER['REQUEST_URI'], "withdrawals") !== false){?>
                                                         <!-- Form Group -->
                                                         <div class="form-group">
                                                             <label for="amount"><?php echo lang("enter_amount") ?></label>
@@ -275,7 +277,14 @@
                                                                 </div>
                                                             </div>
                                                             <label class="error" id="amountWithError"></label>
+                                                            
+
                                                         </div>
+                                                        <?php }?>
+
+                                                        <?php if(strpos($_SERVER['REQUEST_URI'], "withdrawals") == false){?>
+                                                         <input type="hidden" class="form-control myElements" name="amount"  id="amount" aria-describedby="amount">
+                                                         <?php }?>
                                                         <!-- /form group -->
                                                         <!-- VISA/Mastercard withdrawal -->
                                                         <div class="hide" id="vsms-withdrawal">
@@ -326,6 +335,22 @@
                                                                 placeholder="">
                                                             <label class="error hide" id="acc-with-err"><?php echo lang('please_input_an_account');?></label>
                                                         </div>
+                                                        
+
+                                                        <div class="form-group hide" id="rec-inp2">
+                                                            <label for="recipient"><?php echo 'MOMO Number ( only for cameroonians )' ?></label>
+                                                            <input type="text" class="form-control" name="momo_number"
+                                                                value="" placeholder="">
+                                                            <label class="error hide" id="acc-with-err"><?php echo 'please enter MOMO Number';?></label>
+                                                        </div>
+                                                        <div class="form-group hide" id="rec-inp3">
+                                                            <label for="recipient"><?php echo 'MOMO Name ( only for cameroonians )' ?></label>
+                                                            <input type="text" class="form-control" name="momo_name"
+                                                                value="" placeholder="">
+                                                            <label class="error hide" id="acc-with-err"><?php echo 'MOMO Name';?></label>
+                                                        </div>
+
+                                                        
                                                         <!-- /form group -->
                                                         <!--
                                                         <div class="form-group hide" id="tr-fee-fi">
@@ -365,7 +390,7 @@
 
                                                         <div class="form-group">
                                                             <label for="amount"><?php echo lang("payment_method") ?></label>
-                                                            <div class="row">
+                                                            <div class="row pt-2">
                                                                 <?php foreach($paymentMethods as $method) {?>
                                                                 <div class="cnt_min col-md-2">
                                                                     <input type="radio" name="payMethod"

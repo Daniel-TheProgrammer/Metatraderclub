@@ -36,7 +36,14 @@ $('.confirmAction').click(function(e){
                         var div7 = '<tr><td>Swift Code: </td>'
                         var div8 = '<td>'+content.data.swift_code+'</td></tr>'
 
-                        div.innerHTML += div1 + div2 + div3 + div4 + div5 + div6 + div7 + div8;
+                        if(content.method == 'MTN MOMO'){
+                            div.innerHTML +=   div3 + div4 + div5 + div6 ;
+                        }
+                        else{
+                            div.innerHTML += div1 + div2 + div3 + div4 + div5 + div6 + div7 + div8;
+
+                        }
+                        
                     } else {
                         var divOpen = '<tr>'
                         var div1 = '<td>'+content.data.withdrawal_method+': </td>'

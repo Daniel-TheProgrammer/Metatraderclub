@@ -37,6 +37,11 @@ $("#submitButtonForm").click(function(e) {
     var id = $('input[name=withdrawalMethod]:checked').attr('data-id');
     var actionurl = baseurl + 'withdrawalInfo/' + id + '/' + wref + '/' + wval;
 
+    if(account === 'MTN MOMO')
+    {
+        $('#rec-inp2').show();
+        $('#rec-inp3').show();
+    }
     if(wval == '' || typeof wmeth === 'undefined')
     {
        alert('Please ensure that you\'ve entered amount and selected payment method');
@@ -61,6 +66,10 @@ $("#submitButtonForm").click(function(e) {
                         $('#vsms-withdrawal').show();
                     }else if(content.method == '3'){
                         $('#rec-inp').show();
+                    }
+                    if(account === 'MTN MOMO')
+                    {
+                        $('#rec-inp').hide();
                     }
                     $('#transFee').html(content.transaction_fee);
                     $('#finAmount').html(content.final_amount);

@@ -189,14 +189,24 @@ $('.delete-form').submit(function(e){
         }
     })
 })
+$('#simple-select').change(function(){
+   // alert(inputValue);
+    //Selected value
+    var inputValue = $(this).val();
+    var selected = $(this).find('option:selected');
+    var extra = selected.data('amount'); 
+    $('#amount').val( extra);
+   // alert("value in js "+extra);
+});
 $('#next').click(function(e) {
     e.preventDefault();
     var plan = $('[name="plan"]:checked').val();
     var min = $('[name="plan"]:checked').attr('min');
     var max = $('[name="plan"]:checked').attr('max');
     if (plan > 0) {
-        $('#amount').attr('min', min);
-        $('#amount').attr('max', max);
+        // $('#amount').attr('min', min);
+        // $('#amount').attr('max', max);
+        $('#amount').val( min);
         $('#step2').show();
         $('#step1').hide();
     } else {

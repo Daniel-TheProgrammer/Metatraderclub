@@ -464,14 +464,15 @@ if($refType == 'multiple') {
 
                                     <p><?php echo lang("referral_link") ?>: <?php echo base_url(); ?>signup/<?php echo $userInfo->refCode ?>
                                     </p>
-                                    <form action="<?php echo base_url(); ?>invite" method="post" id="joinForm"
-                                        name="joinForm">
-                                        <?php echo form_open( base_url( 'invite' ) , array( 'id' => 'joinForm' ));?>
-                                        <input class="btn btn-outline-light btn-block" name="email"
-                                            placeholder="Enter Email Address">
-                                        <button type="submit" id="invite" class="btn btn-info btn-block"><?php echo lang("invite_friends") ?></button>
-                                        <?php echo form_close();?>
-
+                                    <!-- <form action="<?php echo base_url(); ?>invite" method="post" id="joinForm"
+                                        name="joinForm"> -->
+                                        <!-- <?php echo form_open( base_url( 'invite' ) , array( 'id' => 'joinForm' ));?> -->
+                                        <!-- <input class="btn btn-outline-light btn-block" name="email"
+                                            placeholder="Enter Email Address"> -->
+                                        <button  data-toggle="tooltip" data-placement="top" title="Copy Link"  id="copy_link" data-clipboard-text="<?php echo base_url(); ?>signup/<?php echo $userInfo->refCode ?>" class="btn btn-info btn-block"><?php echo 'Copy Link' ?></button>
+                                    <!-- <?php echo form_close();?> -->
+                                    
+                                       
                                 </div>
                                 <!-- /card body -->
 
@@ -554,3 +555,16 @@ if($refType == 'multiple') {
     </div>
     <!-- /site content -->
     <script src="<?php echo base_url('/assets/dist/js/functions.js') ?>"></script>
+    <script type="text/javascript" src="https://milankyncl.github.io/jquery-copy-to-clipboard/jquery.copy-to-clipboard.js"></script>
+    <script language="JavaScript">
+    $(document).ready(function() {
+        $('#copy_link').click(function(e) {
+             $(this).tooltip('hide')
+                    .attr('data-original-title', 'Copied!')
+                    .tooltip('show');
+        })
+        $('#copy_link').CopyToClipboard("this text was copied");
+    }); 
+    </script>
+
+    

@@ -1,4 +1,4 @@
-# MetatraderClub - HYIP, Cryptocurrency, Forex Investment Platform with MLM Support
+# Proinvest - HYIP, Cryptocurrency, Forex Investment Platform with MLM Support
 **Admin Panel - User Management Demo using CodeIgniter + AdminLTE Bootstrap Theme**
 
 This system is intended for use in creating and maintaining an investment platform that is secure for both the
@@ -20,8 +20,6 @@ site owner and client.
 13. Support modern browser and cross browser compatibility.
 14. Regular updates
 15. Free premium and quick support 24/7
-
-
 
 
 ## Installation
