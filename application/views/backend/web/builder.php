@@ -412,7 +412,7 @@
                         <div class="section-heading text-center">
                             <!-- Dream Dots -->
                             <div class="dream-dots justify-content-center fadeInUp" data-wow-delay="0.2s">
-                                <span class="mce" id="mce_16" data-key="card_5_subtitle" contenteditable="true"><?php echo $this->web_model->getTemplateContent('card_5_subtitle', $template)->value; ?></span>
+                            Have, any questions? Contact Us below. </span>
                             </div>
                             <h2 class="fadeInUp mce" data-wow-delay="0.3s" id="mce_17" data-key="card_5_title" contenteditable="true"><?php echo $this->web_model->getTemplateContent('card_5_title', $template)->value; ?></h2>
                             <p class="fadeInUp mce" data-wow-delay="0.4s" id="mce_18" data-key="card_5_content" contenteditable="true"><?php echo $this->web_model->getTemplateContent('card_5_content', $template)->value; ?>
@@ -1069,22 +1069,15 @@ a{word-break: break-word; text-decoration: none; color: inherit;}
                     <br>
                     <div class="row align-items-center supported-payments">
                         <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-image" src="<?=base_url('assets/dist/img/coinpayments.png')?>">
+                            <img class="payment-image" src="<?=base_url('assets/dist/img/bitcoin.png')?>">
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-image" src="<?=base_url('assets/dist/img/Perfect_Money.png')?>">
+                            <img class="payment-image" src="<?=base_url('assets/dist/img/litecoin.png')?>">
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-image" src="<?=base_url('assets/dist/img/paystack.png')?>">
+                            <img class="payment-image" src="<?=base_url('assets/dist/img/momo.png')?>">
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-cbp-image" src="<?=base_url('assets/dist/img/coinbase.png')?>">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-image" src="<?=base_url('assets/dist/img/paypal.png')?>">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-cbp-image" src="<?=base_url('assets/dist/img/payeer.png')?>">
+                       
                         </div>
                     </div>
                 </div>

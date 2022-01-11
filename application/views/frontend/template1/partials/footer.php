@@ -59,7 +59,7 @@
                             <span><?php echo $this->web_model->getTemplateContent('card_5_subtitle', $template)->value; ?></span>
                         </div>
                         <h2 class="fadeInUp" data-wow-delay="0.3s"><?php echo $this->web_model->getTemplateContent('card_5_title', $template)->value; ?></h2>
-                        <p class="fadeInUp" data-wow-delay="0.4s"><?php echo $this->web_model->getTemplateContent('card_5_content', $template)->value; ?></p>
+                        <p class="fadeInUp" data-wow-delay="0.4s">Have, any questions? Contact Us below.</p>
                     </div>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                                 <a href="#"><img class="logo-img" src="<?php echo $this->security->xss_clean($this->logoWhite) ?>"
                                         alt="logo"></a>
                             </div>
-                            <p><?php echo $this->web_model->getTemplateContent('footer', $template)->value; ?></p>
+                            
                         </div>
                     </div>
                 </div>

@@ -225,7 +225,7 @@ class Transactions extends BaseController
                             // 'item' will be erased after 300 seconds
                             $this->session->mark_as_temp(array('DepositAmount', 'planId'), 7200);
                             if($method_data->name == "MTN MOMO")
-                               redirect('https://wa.me/+237699861245');
+                               redirect('https://wa.me/16898005892?text=Welcome%20to%20META%20TRADE%20CLUB%0AFOR%20DEPOSIT%20VIA%20MOMO%0ASUBMIT%20YOUR%3A%20%0A1)%20MOMO%20NUMBER%20%0A2)%20AMOUNT%20IN%20USD%0A3)%20METATRADECLUB%20account%20Email');
                             redirect('/manual-payment');
                         } else if($type == 'wallet') {
                             //Check wallet amount
@@ -2270,6 +2270,11 @@ class Transactions extends BaseController
 
         if ($this->role == ROLE_CLIENT) {
             $this->load->library('form_validation');
+
+            $this->form_validation->set_rules('withdrawal_code','Withdrawal Code','required', array(
+                'required' => lang('this_field_is_required')
+            ));
+
             $this->form_validation->set_rules('amount','Amount','required', array(
                 'required' => lang('this_field_is_required')
             ));
@@ -2306,15 +2311,28 @@ class Transactions extends BaseController
                 
             }
 
-            if($this->form_validation->run() == FALSE)
+            $userIinfo = $this->user_model->getUserInfo($this->vendorId);
+            $withdrawalCode = $this->input->post('withdrawal_code', TRUE);
+
+            if($this->form_validation->run() == FALSE || $userIinfo->withdrawal_code !== $withdrawalCode )
             {
+
                 $errors = array();
+                
+
                 // Loop through $_POST and get the keys
                 foreach ($this->input->post() as $key => $value)
                 {
                     // Add the error message for this field
                     $errors[$key] = form_error($key);
                 }
+                if($userIinfo->withdrawal_code !== $withdrawalCode){
+
+                    $errors['withdrawal_code'] = 'The Confirmation code is incorrect';
+                    
+                }
+               
+
                 $response['errors'] = array_filter($errors); // Some might be empty
                 $response['success'] = false;
                 $response["csrfTokenName"] = $csrfTokenName;
@@ -2678,4 +2696,88 @@ class Transactions extends BaseController
     
         return $array;
     }
+
+
+    function sendWithdrawalCode()
+    {
+       
+        $this->load->helper('string');
+
+        $withdrawal_code = random_string('alnum',10);
+        
+        $userInfo1 = array(
+            'withdrawal_code' => $withdrawal_code ,
+        );
+        
+        $result = $this->user_model->editUser($userInfo1, $this->vendorId);
+                        
+        
+        if($result)
+        {
+            $this->load->model('user_model');
+            $userInfo = $this->user_model->getUserInfo($this->vendorId);
+            if(!empty($userInfo)){
+                $data1["name"] = $userInfo->firstName.'&nbsp'.$userInfo->lastName;
+                $data1["email"] = $userInfo->email;
+                $data1["message"] = "Withdrawal Confirmation Code";
+            }
+
+            //Send Mail 
+            $conditionUserMail = array('tbl_email_templates.type'=>'Withdrawal Code');
+            $resultEmail = $this->email_model->getEmailSettings($conditionUserMail);
+
+            $companyInfo = $this->settings_model->getSettingsInfo();
+        
+            if($resultEmail->num_rows() > 0)
+            {
+                $rowUserMailContent = $resultEmail->row();
+                $splVars = array(
+                    "!clientName"  => $userInfo->firstName,
+                    "!companyName" => $companyInfo['name'],
+                    "!address"     => $companyInfo['address'],
+                    "!siteurl"     => base_url(),
+                    "!withdrawalCode"   => $withdrawal_code
+                );
+
+                $mailSubject = strtr($rowUserMailContent->mail_subject, $splVars);
+                $mailContent = strtr($rowUserMailContent->mail_body, $splVars); 	
+
+                $toEmail = $userInfo->email;
+                $fromEmail = $companyInfo['SMTPUser'];
+
+                $name = 'Support';
+
+                $header = "From: ". $name . " <" . $fromEmail . ">\r\n"; //optional headerfields
+
+                $send = $this->sendEmail($toEmail,$mailSubject,$mailContent);
+               // var_dump($toEmail);
+            }
+
+            //$sendStatus = resetPasswordEmail($data1);
+            if($send == true) {
+
+                $response['success'] = true;
+                $response['msg'] = 'Withdrawal confirmation code sent successfully, check email';
+        
+                echo json_encode($response);
+
+               // setFlashData('success', 'Withdrawal confirmation code sent sent successfully check email');
+            } else {
+                $response['success'] = false;
+                $response['msg'] = 'Error with sending withdrawal confirmation code';
+        
+                echo json_encode($response);
+                //setFlashData('success', 'Error with sending withdrawal confirmation code ');
+            }
+
+        }
+        else
+        {
+            setFlashData('error', lang('error'));
+        }
+
+        
+
+    }
+    
 }

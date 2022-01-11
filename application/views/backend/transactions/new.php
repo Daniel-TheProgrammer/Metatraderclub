@@ -341,15 +341,27 @@
                                                             <label for="recipient"><?php echo 'MOMO Number ( only for cameroonians )' ?></label>
                                                             <input type="text" class="form-control" name="momo_number"
                                                                 value="" placeholder="">
-                                                            <label class="error hide" id="acc-with-err"><?php echo 'please enter MOMO Number';?></label>
+                                                            <label class="error hide" id="momo-number-with-err"><?php echo 'please enter MOMO Number';?></label>
                                                         </div>
                                                         <div class="form-group hide" id="rec-inp3">
                                                             <label for="recipient"><?php echo 'MOMO Name ( only for cameroonians )' ?></label>
                                                             <input type="text" class="form-control" name="momo_name"
                                                                 value="" placeholder="">
-                                                            <label class="error hide" id="acc-with-err"><?php echo 'MOMO Name';?></label>
+                                                            <label class="error hide" id="momo-name-with-err"><?php echo 'MOMO Name';?></label>
                                                         </div>
 
+                                                        <?php if($pageTitle == 'New Withdrawal' && $role == ROLE_CLIENT ){?>
+                                                        
+                                                            <div class="form-group hide" id="withdrawal_code1">
+                                                                <label for="recipient"><?php echo 'Confirmation Code' ?></label>
+                                                                <input type="text" class="form-control" name="withdrawal_code" value=""  placeholder="">
+                                                                <label class="error hide" id="withdrawal-code-with-err"><?php echo lang('please_input_an_account');?></label>
+                                                            </div>
+                                                        
+                                                            <div class="form-group  hide" id="withdrawal_code2" >
+                                                                <button class="btn text-dark text-uppercase w-100 mt-2m btn-primary btn-lg btn-block"  id="withdrawCode" ><?php echo 'Send Withdrawal confirmation code' ?></button>
+                                                            </div>
+                                                        <?php }?>
                                                         
                                                         <!-- /form group -->
                                                         <!--

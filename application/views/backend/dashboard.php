@@ -481,6 +481,8 @@ if($refType == 'multiple') {
 
                         </div>
                         <!-- /card -->
+
+                        
                     </div>
                     <div class="col-md-12">
                         <div class="dt-card">
@@ -541,7 +543,51 @@ if($refType == 'multiple') {
                             </div>
                             <!-- /card body -->
 
+                            
                         </div>
+                    </div>
+                    <div class="col-md-12"> 
+                      <div class="dt-card dt-card bg-image-v6 bg-overlay overlay-opacity-0_8 bg-gradient-blue--after text-white">
+
+                            <!-- Overlay Content -->
+                            <div class="bg-overlay__inner mt-auto">
+
+                                <!-- Card Body -->
+                                <div class="dt-card__body">
+
+                                    <h3 class="text-white mb-2">
+                                       Social media links :
+                                   </h3>
+                                   
+                                    <a target="_blank" href="https://web.facebook.com/Meta-Trade-Club-100200999227590/" class="dt-side-nav__link text-white "
+                                        title="Support">
+                                        <i class="icon icon-facebook icon-fw icon-lg"></i>
+                                        <span class=" text-white">Facebook page</span>
+                                    </a>
+                                
+                                    <a target="_blank" href="https://www.youtube.com/channel/UC2bnhGtsz5be3MJGLZqz2tA" class="dt-side-nav__link text-white"
+                                        title="Support">
+                                        <i class="icon icon-youtube icon-fw icon-lg"></i>
+                                        <span class=" text-white">Youtube</span>
+                                    </a>
+                               
+                                    <a target="_blank" href="https://t.me/+8L50NEapoOI3ZjE0" class="dt-side-nav__link text-white"
+                                        title="Support">
+                                        <i class="icon icon-mail icon-fw icon-lg"></i>
+                                        <span class=" text-white">Telegram</span>
+                                    </a>
+                                
+                                    
+                                    
+                                    
+                                </div>
+                                <!-- /card body -->
+
+                            </div>
+                            <!-- /overlay content -->
+
+                            </div>
+                            <!-- /card -->
                     </div>
                 </div>
 

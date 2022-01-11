@@ -53,6 +53,7 @@ $("#submitButtonForm").click(function(e) {
             success:function(data)
             {
                 var content = JSON.parse(data);
+                console.log(content);
                 if(content.success == true)
                 {
                     if(account == content.type)
@@ -71,6 +72,8 @@ $("#submitButtonForm").click(function(e) {
                     {
                         $('#rec-inp').hide();
                     }
+                    $('#withdrawal_code1').show();
+                    $('#withdrawal_code2').show();
                     $('#transFee').html(content.transaction_fee);
                     $('#finAmount').html(content.final_amount);
                     
@@ -110,6 +113,30 @@ $("#submitButtonForm").click(function(e) {
 });
 
 
+$("#withdrawCode").click(function(e) {
+    e.preventDefault();
+
+    $('#withdrawCode').prop('disabled', true);
+    $('#withdrawCode').html('Processing...');
+    var actionurl = baseurl + 'withdrawal/send/code';
+
+    $.ajax({
+        url: actionurl,
+        method:"GET",
+        success:function(data){
+            console.log(data);
+            var content = JSON.parse(data);
+            swal(
+                content.success == true ? 'Success!' : 'Error!',
+                content.msg,
+                content.success == true ? 'success' : 'error'
+            );
+
+            $('#withdrawCode').prop('disabled', false);
+            $('#withdrawCode').html('Resend Withdrawal confirmation code');
+        }
+    });
+});
 $("#addWithdrawal").on('submit', function(e) {
     e.preventDefault();
     $('#acc-with-err').hide();
@@ -136,6 +163,7 @@ $("#addWithdrawal").on('submit', function(e) {
                 data: $('#addWithdrawal').serialize(),
                 method:"POST",
                 success:function(data){
+                   // console.log(data);
                     var content = JSON.parse(data);
                     $("input[name="+content.csrfTokenName+"]").val(content.csrfHash);
                     swal(
@@ -149,6 +177,8 @@ $("#addWithdrawal").on('submit', function(e) {
                             // here you can access all the properties just by typing either value.propertyName or value["propertyName"]
                             // example: value.ri_idx; value.ri_startDate; value.ri_endDate;
                             var msg = '<label class="error" for="'+key+'">'+value+'</label>';
+                           // console.log( $('.error').next('input[name="' + key + '"], select[name="' + key + '"]'));
+                            $( 'input[name="' + key + '"], select[name="' + key + '"]').next('.error').remove();
                             $('input[name="' + key + '"], select[name="' + key + '"]').addClass('inputTxtError').after(msg);
                         });
                     } else {

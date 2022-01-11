@@ -571,14 +571,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <span class="dt-side-nav__text">My Referrals</span>
                                     </a>
                                 </li>
-                                <li
+                                <!-- <li
                                     class="dt-side-nav__item <?=$this->uri->segment(1) == "tickets" ? "selected" : ''?>">
                                     <a href="<?=base_url('tickets'); ?>" class="dt-side-nav__link"
                                         title="Support">
                                         <i class="icon icon-mail icon-fw icon-lg"></i>
                                         <span class="dt-side-nav__text">Help Desk</span>
                                     </a>
+                                </li> -->
+                                <li
+                                    class="dt-side-nav__item <?=$this->uri->segment(1) == "tickets" ? "selected" : ''?>">
+                                    <a target="_blank" href="https://web.facebook.com/Meta-Trade-Club-100200999227590/" class="dt-side-nav__link"
+                                        title="Support">
+                                        <i class="icon icon-facebook icon-fw icon-lg"></i>
+                                        <span class="dt-side-nav__text">Facebook page</span>
+                                    </a>
                                 </li>
+                                <li
+                                    class="dt-side-nav__item <?=$this->uri->segment(1) == "tickets" ? "selected" : ''?>">
+                                    <a target="_blank" href="https://www.youtube.com/channel/UC2bnhGtsz5be3MJGLZqz2tA" class="dt-side-nav__link"
+                                        title="Support">
+                                        <i class="icon icon-youtube icon-fw icon-lg"></i>
+                                        <span class="dt-side-nav__text">Youtube</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="dt-side-nav__item <?=$this->uri->segment(1) == "tickets" ? "selected" : ''?>">
+                                    <a target="_blank" href="https://t.me/+8L50NEapoOI3ZjE0" class="dt-side-nav__link"
+                                        title="Support">
+                                        <i class="icon icon-mail icon-fw icon-lg"></i>
+                                        <span class="dt-side-nav__text">Telegram</span>
+                                    </a>
+                                </li>
+                                
                                 <!-- Menu Header -->
                                 <?php } else {?>
 
@@ -688,13 +713,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <span class="dt-side-nav__text"><?php echo lang("plugins") ?></span> </a>
                                     </li>
                                 <?php }?>
-                                <li class="dt-side-nav__item <?php if($this->uri->segment(1)=="tickets"){echo "selected";}?>">
+                                <!-- <li class="dt-side-nav__item <?php if($this->uri->segment(1)=="tickets"){echo "selected";}?>">
                                     <a href="<?php echo base_url(); ?>tickets" class="dt-side-nav__link"
                                         title="Support">
                                         <i class="icon icon-mail icon-fw icon-lg <?= $ticketnotify == true ? 'dt-icon-alert' : '' ?>"></i>
                                         <span class="dt-side-nav__text"><?php echo lang('tickets') ?></span>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li class="dt-side-nav__item" <?php if($this->uri->segment(1)=="webcontrol"){echo "selected";}?>">
                                     <a href="<?php echo base_url(); ?>webcontrol/templates"
                                         class="dt-side-nav__link <?php if($this->uri->segment(1)=="webcontrol"){echo "active";}?>"

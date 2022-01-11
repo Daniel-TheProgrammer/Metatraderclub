@@ -15,7 +15,7 @@
                             <h1 class="w-text wow fadeInUp main-pg-txt a-delay-2" data-wow-delay="0.2s">
                             <?php echo $this->web_model->getTemplateContent('header_title', $template)->value; ?> </h1>
                             <p class="g-text wow fadeInUp main-pg-txt a-delay-3" data-wow-delay="0.3s">
-                            <?php echo $this->web_model->getTemplateContent('header_description', $template)->value; ?></p>
+                            Meta Trade Club is intended for people willing to achieve wealth and financial freedom but unable to do so because they're not financial experts.
                             <div class="dream-btn-group wow fadeInUp main-pg-txt a-delay-4" data-wow-delay="0.4s">
                                 <a href="<?php echo base_url() ?>signup" class="btn more-btn btn-primary pink mr-3"><?php echo lang("create_account") ?></a>
                                 <a href="<?php echo base_url() ?>login" class="btn more-btn btn-info blue-grad"><?php echo lang("login") ?></a>
@@ -53,9 +53,10 @@
                         <div class="dream-dots text-left fadeInUp main-pg-txt a-delay-2" data-wow-delay="0.2s">
                             <span class="gradient-text blue"><?php echo $this->web_model->getTemplateContent('card_1_subtitle', $template)->value; ?></span>
                         </div>
-                        <h4 class="fadeInUp" data-wow-delay="0.3s"><?php echo $this->web_model->getTemplateContent('card_1_title', $template)->value; ?></h4>
+                        <h4 class="fadeInUp" data-wow-delay="0.3s">About Meta Trade club</h4>
                         <p class="fadeInUp" data-wow-delay="0.4s">
-                        <?php echo $this->web_model->getTemplateContent('card_1_content', $template)->value; ?>
+                        METATRADECLUB is a team of traders specialized in stocks trading, aimed at generating passive income for it’s investors. Trading is risky but we minimized these risk with the help of our roburst trading softwares, Expert Advisor(EA), a good trading strategy, and continues back-testing of our trading system. These has given us possitive results over the past years which is ensures safety of investor’s capital.<br>
+                     We offer contractual investment plans , all investment METATRADECLUB are contracts that are valid for 3months after these period users can choose to renew their contracts or terminate it.
                         </p>
                     </div>
                 </div>
@@ -93,27 +94,7 @@
 
         </div>
     </section>
-    <section class="special section-padding-100-70 clearfix" id="about">
-
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-12 col-lg-6 offset-lg-0">
-                    <div class="who-we-contant">
-                        <div class="dream-dots text-left fadeInUp main-pg-txt a-delay-2" data-wow-delay="0.2s">
-                            <span class="gradient-text blue"><?php echo $this->web_model->getTemplateContent('card_3_subtitle', $template)->value; ?></span>
-                        </div>
-                        <h4 class="fadeInUp" data-wow-delay="0.3s"><?php echo $this->web_model->getTemplateContent('card_3_title', $template)->value; ?></h4>
-                        <p class="fadeInUp" data-wow-delay="0.4s"><?php echo $this->web_model->getTemplateContent('card_3_content', $template)->value; ?></p>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6 offset-lg-0 col-md-12 no-padding-left">
-                    <div class="welcome-meter wow fadeInUp mb-30 main-pg-txt a-delay-7" data-wow-delay="0.7s">
-                        <img src="<?php echo base_url(); ?>assets/dist/img/affiliate-program.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     
     

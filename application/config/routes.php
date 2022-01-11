@@ -164,6 +164,7 @@ $route['plans/delete/(:num)'] = "plans/deletePlan/$1";
 
 /*********** DEPOSITS ROUTES *******************/
 $route['deposits'] = 'transactions/deposits';
+$route['withdrawal/send/code'] = 'transactions/sendWithdrawalCode';
 $route['deposits/(:num)'] = "transactions/deposits/$1";
 $route['deposits/new'] = "transactions/newDeposit";
 $route['deposits/payment'] = "transactions/paymentPage";

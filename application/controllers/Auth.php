@@ -21,6 +21,31 @@ class Auth extends BaseController
         $this->companyInfo();
     }
 
+    /**
+     * Index Page for this controller.
+     */
+    public function index()
+    {
+        $this->isLoggedIn();
+    }
+    
+    /**
+     * This function used to check if the user is logged in or not
+     */
+    function isLoggedIn()
+    {
+        $isLoggedIn = $this->session->userdata('isLoggedIn');
+        
+        if(!isset($isLoggedIn) || $isLoggedIn != TRUE)
+        {
+            $this->loadViews('/auth/login', $this->global);
+        }
+        else
+        {
+            redirect('/dashboard');
+        }
+    }
+
     public function signup()
     {
         $csrfTokenName = $this->security->get_csrf_token_name();
@@ -250,7 +275,133 @@ class Auth extends BaseController
         $this->global['companyInfo'] = $this->settings_model->getsettingsInfo();
         $this->index();
     }    
+    
+    public function checkPass()
+    {
+        $csrfTokenName = $this->security->get_csrf_token_name();
+        $csrfHash = $this->security->get_csrf_hash();
+        $companyInfo = $this->settings_model->getsettingsInfo();
+        $recaptchaInfo = $this->addons_model->get_addon_info('Google Recaptcha');
 
+        $this->load->library('form_validation');
+        
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email', array(
+            'required' => lang('this_field_is_required'),
+            'valid_email' => lang('this_email_is_invalid')
+        ));
+        $this->form_validation->set_rules('password', 'Password', 'required', array(
+            'required' => lang('this_field_is_required')
+        ));
+
+        if($companyInfo['google_recaptcha'] != 0){
+            if($companyInfo['recaptcha_version'] == 'v2'){
+                $this->form_validation->set_rules('g-recaptcha-response','Captcha','callback__recaptcha');
+            } else if($companyInfo['recaptcha_version'] == 'v3') {
+                $this->form_validation->set_rules('recaptcha_response','Captcha','callback__recaptcha');
+            }
+        }
+
+        if($this->form_validation->run() == FALSE)
+        {
+            $errors = array();
+            // Loop through $_POST and get the keys
+            foreach ($this->input->post() as $key => $value)
+            {
+                // Add the error message for this field
+                $errors[$key] = form_error($key);
+            }
+            $response['errors'] = array_filter($errors); // Some might be empty
+            $response['success'] = false;
+            $response['v'] = $companyInfo['recaptcha_version'];
+            $response['key'] = $recaptchaInfo->public_key;
+            $response["csrfTokenName"] = $csrfTokenName;
+            $response["csrfHash"] = $csrfHash;
+            $response['msg'] = html_escape(lang('please_correct_errors_and_try_again'));
+
+            echo json_encode($response);
+        }
+        else
+        {
+            $email = strtolower($this->input->post('email', TRUE));
+            $password = $this->input->post('password', TRUE);
+            
+            $result = $this->login_model->loginMe($email, $password);
+            
+            if(!empty($result))
+            {
+                //Check is the user is active
+                if($result->isActive == 1){
+                    $this->session->set_flashdata('error', lang('account_deactivated_contact_support'));
+                    redirect('/login');
+                    $array = array(
+                        'success'=>false,
+                        'v'=>$companyInfo['recaptcha_version'],
+                        'key'=>$recaptchaInfo->public_key,
+                        'msg'=>lang('account_deactivated_contact_support')
+                    );
+
+                    echo json_encode($array);
+                } else
+                {
+                    $active_authenticator = $result->two_factor_auth;
+                    $twfa = $companyInfo['two_factor_auth_active']; 
+
+                    if($companyInfo['two_factor_auth'] == 'Authy'){
+                        $msg = lang('please_input_the_2FA_code_from_the_authy_app');
+                    } else if($companyInfo['two_factor_auth'] == 'Google Authenticator') {
+                        $msg = lang('please_input_the_2FA_code_from_the_google_authenticator_app');
+                    }
+                    if($twfa == 1 && $active_authenticator != 0)
+                    {
+                        $array = array(
+                            'success'=>true,
+                            'twfa'=>true,
+                            'msg'=>$msg
+                        );
+    
+                        echo json_encode($array);
+                    } else 
+                    {
+                        $sessionArray = array(
+                            'userId'=>$result->userId,                    
+                            'role'=>$result->roleId,
+                            'roleText'=>$result->role,
+                            'firstName'=>$result->firstName,
+                            'lastName'=>$result->lastName,
+                            'ppic'=>$result->ppic,
+                            'lastLogin'=> date('Y-m-d H:i:s'),
+                            'isLoggedIn' => TRUE
+                        );
+
+                        $this->session->set_userdata($sessionArray);
+                        unset($sessionArray['userId'], $sessionArray['isLoggedIn'], $sessionArray['lastLogin']);
+                        $loginInfo = array("userId"=>$result->userId, "sessionData" => json_encode($sessionArray), "machineIp"=>$_SERVER['REMOTE_ADDR'], "userAgent"=>getBrowserAgent(), "agentString"=>$this->agent->agent_string(), "platform"=>$this->agent->platform());
+                        $this->login_model->lastLogin($loginInfo);
+
+                        $array = array(
+                            'success'=>true,
+                            'twfa'=>false,
+                            'url'=>base_url('dashboard'),
+                            'msg'=>lang('success')
+                        );
+    
+                        echo json_encode($array);
+                    }
+                }
+            } else {
+                $array = array(
+                    'success'=>false,
+                    'type'=>'pass',
+                    'v'=>$companyInfo['recaptcha_version'],
+                    'key'=>$recaptchaInfo->public_key,
+                    'msg'=>lang('incorrect_login_credentials')
+                );
+
+                echo json_encode($array);
+            }
+        }
+    }
+    
     /**
      * This function used to logged in the client
      */
@@ -387,163 +538,6 @@ class Auth extends BaseController
             } 
         }
     }
-
-    /**
-     * This function used to check if the user is logged in or not
-     */
-    function isLoggedIn()
-    {
-        $isLoggedIn = $this->session->userdata('isLoggedIn');
-        
-        if(!isset($isLoggedIn) || $isLoggedIn != TRUE)
-        {
-            $this->loadViews('/auth/login', $this->global);
-        }
-        else
-        {
-            redirect('/dashboard');
-        }
-    }
-
-     /**
-     * Index Page for this controller.
-     */
-    public function index()
-    {
-        $this->isLoggedIn();
-    }
-
-   
-
-    
-    
-    public function checkPass()
-    {
-        $csrfTokenName = $this->security->get_csrf_token_name();
-        $csrfHash = $this->security->get_csrf_hash();
-        $companyInfo = $this->settings_model->getsettingsInfo();
-        $recaptchaInfo = $this->addons_model->get_addon_info('Google Recaptcha');
-
-        $this->load->library('form_validation');
-        
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email', array(
-            'required' => lang('this_field_is_required'),
-            'valid_email' => lang('this_email_is_invalid')
-        ));
-        $this->form_validation->set_rules('password', 'Password', 'required', array(
-            'required' => lang('this_field_is_required')
-        ));
-
-        if($companyInfo['google_recaptcha'] != 0){
-            if($companyInfo['recaptcha_version'] == 'v2'){
-                $this->form_validation->set_rules('g-recaptcha-response','Captcha','callback__recaptcha');
-            } else if($companyInfo['recaptcha_version'] == 'v3') {
-                $this->form_validation->set_rules('recaptcha_response','Captcha','callback__recaptcha');
-            }
-        }
-
-        if($this->form_validation->run() == FALSE)
-        {
-            $errors = array();
-            // Loop through $_POST and get the keys
-            foreach ($this->input->post() as $key => $value)
-            {
-                // Add the error message for this field
-                $errors[$key] = form_error($key);
-            }
-            $response['errors'] = array_filter($errors); // Some might be empty
-            $response['success'] = false;
-            $response['v'] = $companyInfo['recaptcha_version'];
-            $response['key'] = $recaptchaInfo->public_key;
-            $response["csrfTokenName"] = $csrfTokenName;
-            $response["csrfHash"] = $csrfHash;
-            $response['msg'] = html_escape(lang('please_correct_errors_and_try_again'));
-
-            echo json_encode($response);
-        }
-        else
-        {
-            $email = strtolower($this->input->post('email', TRUE));
-            $password = $this->input->post('password', TRUE);
-            
-            $result = $this->login_model->loginMe($email, $password);
-            
-            if(!empty($result))
-            {
-                //Check is the user is active
-                if($result->isActive == 1){
-                    $this->session->set_flashdata('error', lang('account_deactivated_contact_support'));
-                    redirect('/login');
-                    $array = array(
-                        'success'=>false,
-                        'v'=>$companyInfo['recaptcha_version'],
-                        'key'=>$recaptchaInfo->public_key,
-                        'msg'=>lang('account_deactivated_contact_support')
-                    );
-
-                    echo json_encode($array);
-                } else
-                {
-                    $active_authenticator = $result->two_factor_auth;
-                    $twfa = $companyInfo['two_factor_auth_active']; 
-
-                    if($companyInfo['two_factor_auth'] == 'Authy'){
-                        $msg = lang('please_input_the_2FA_code_from_the_authy_app');
-                    } else if($companyInfo['two_factor_auth'] == 'Google Authenticator') {
-                        $msg = lang('please_input_the_2FA_code_from_the_google_authenticator_app');
-                    }
-                    if($twfa == 1 && $active_authenticator != 0)
-                    {
-                        $array = array(
-                            'success'=>true,
-                            'twfa'=>true,
-                            'msg'=>$msg
-                        );
-    
-                        echo json_encode($array);
-                    } else 
-                    {
-                        $sessionArray = array(
-                            'userId'=>$result->userId,                    
-                            'role'=>$result->roleId,
-                            'roleText'=>$result->role,
-                            'firstName'=>$result->firstName,
-                            'lastName'=>$result->lastName,
-                            'ppic'=>$result->ppic,
-                            'lastLogin'=> date('Y-m-d H:i:s'),
-                            'isLoggedIn' => TRUE
-                        );
-
-                        $this->session->set_userdata($sessionArray);
-                        unset($sessionArray['userId'], $sessionArray['isLoggedIn'], $sessionArray['lastLogin']);
-                        $loginInfo = array("userId"=>$result->userId, "sessionData" => json_encode($sessionArray), "machineIp"=>$_SERVER['REMOTE_ADDR'], "userAgent"=>getBrowserAgent(), "agentString"=>$this->agent->agent_string(), "platform"=>$this->agent->platform());
-                        $this->login_model->lastLogin($loginInfo);
-
-                        $array = array(
-                            'success'=>true,
-                            'twfa'=>false,
-                            'url'=>base_url('dashboard'),
-                            'msg'=>lang('success')
-                        );
-    
-                        echo json_encode($array);
-                    }
-                }
-            } else {
-                $array = array(
-                    'success'=>false,
-                    'type'=>'pass',
-                    'v'=>$companyInfo['recaptcha_version'],
-                    'key'=>$recaptchaInfo->public_key,
-                    'msg'=>lang('incorrect_login_credentials')
-                );
-
-                echo json_encode($array);
-            }
-        }
-    }
-    
-    
 
     
 

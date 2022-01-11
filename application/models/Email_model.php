@@ -45,6 +45,16 @@ class Email_model extends CI_Model {
         
         return $query->row();
     }
+
+    function getEmailInfoByType($emailType)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_email_templates');
+        $this->db->where('type', $emailType);
+        $query = $this->db->get();
+       
+        return $query->row();
+    }
     
 
     /**

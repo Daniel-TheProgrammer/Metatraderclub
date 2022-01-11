@@ -13,10 +13,10 @@
                         <h3 class="round-head"><?=$this->web_model->getTemplateContent('header_sub_title', $template)->value; ?></h3>
                     </div>
                     <h1 class="b-text wow fadeInUp main-pg-txt a-delay-2 mb-0" data-wow-delay="0.3s">
-                        <?=$this->web_model->getTemplateContent('header_title', $template)->value; ?>
+                       
                     </h1>
                     <p class="b-text wow fadeInUp main-pg-txt a-delay-3 p-grey" data-wow-delay="0.3s">
-                    <?=$this->web_model->getTemplateContent('header_description', $template)->value; ?>
+                      Meta Trade Club is intended for people willing to achieve wealth and financial freedom but unable to do so because they're not financial experts.
                     </p>
                     <div class="dream-btn-group wow fadeInUp main-pg-txt a-delay-4" data-wow-delay="0.4s">
                         <a href="<?= base_url('signup') ?>" class="btn btn-primary-main-pt2 text-uppercase mr-3"><?=lang("create_account") ?></a>
@@ -124,7 +124,8 @@
             <div class="col-12 col-lg-6 offset-lg-0 col-md-12 no-padding-left">
                 <div class="welcome-meter wow fadeInUp mb-30 main-pg-txt a-delay-7" data-wow-delay="0.7s">
                     <p class="fadeInUp" data-wow-delay="0.4s">
-                    <?=$this->web_model->getTemplateContent('card_1_content', $template)->value; ?>
+                      METATRADECLUB is a team of traders specialized in stocks trading, aimed at generating passive income for it’s investors. Trading is risky but we minimized these risk with the help of our roburst trading softwares, Expert Advisor(EA), a good trading strategy, and continues back-testing of our trading system. These has given us possitive results over the past years which is ensures safety of investor’s capital.<br>
+                     We offer contractual investment plans , all investment METATRADECLUB are contracts that are valid for 3months after these period users can choose to renew their contracts or terminate it.
                     </p>
                 </div>
             </div>
@@ -185,68 +186,9 @@
     </div>
 </section>
 <!-- ##### Welcome Area End ##### -->
-<div class="clearfix"></div>
 
-<!-- ##### About Us Area Start ##### -->
-<section class="about-block section-padding-100-70 clearfix mr-n35" id="about">
 
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-12 col-lg-6 offset-lg-0 col-md-12 no-padding-left">
-                <div class="about-block-main-img welcome-meter wow fadeInUp mb-30 main-pg-txt a-delay-7" data-wow-delay="0.7s">
-                    <img src="<?=base_url('assets/dist/img/team-group.png')?>" alt="">
-                </div>
-            </div>
 
-            <div class="col-12 col-lg-5 offset-lg-1">
-                <div class="who-we-contant">
-                    <div class="text-left fadeInUp main-pg-txt a-delay-2" data-wow-delay="0.2s">
-                        <span class="round-head">
-                            <?=$this->web_model->getTemplateContent('card_3_subtitle', $template)->value; ?>
-                        </span>
-                    </div>
-                    <br>
-                    <h4 class="fadeInUp text-capitalize" data-wow-delay="0.3s">
-                        <?=$this->web_model->getTemplateContent('card_3_title', $template)->value; ?>
-                    </h4>
-                    <p class="fadeInUp" data-wow-delay="0.4s">
-                        <?=$this->web_model->getTemplateContent('card_3_content', $template)->value; ?>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- ##### About Us Area End ##### -->
-<!-- ##### About Us Area Start ##### -->
-<section class="about-block section-padding-100-70 clearfix mr-n35" id="about">
-
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-12 col-lg-6">
-                <div class="who-we-contant">
-                    <div class="text-left fadeInUp main-pg-txt a-delay-2" data-wow-delay="0.2s">
-                        <span class="round-head">
-                            <?=$this->web_model->getTemplateContent('card_4_subtitle', $template)->value; ?>
-                        </span>
-                    </div>
-                    <br>
-                    <h4 class="fadeInUp text-capitalize" data-wow-delay="0.3s">
-                        <?=$this->web_model->getTemplateContent('card_4_title', $template)->value; ?>
-                    </h4>
-                    <p class="fadeInUp" data-wow-delay="0.4s">
-                        <?=$this->web_model->getTemplateContent('card_4_content', $template)->value; ?>
-                    </p>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-md-12 no-padding-left">
-                <div class="about-block-main-img welcome-meter wow fadeInUp mt-5 mb-30 main-pg-txt a-delay-7" data-wow-delay="0.7s">
-                    <img src="<?=base_url('assets/dist/img/about-agency.jpeg')?>" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <section class="plan-features clearfix mr-n35" id="plans">
     <div class="container">
         <div class="section-heading text-center">

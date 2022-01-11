@@ -59,7 +59,7 @@
                                 <a href="#"><img src="<?php echo $this->security->xss_clean($this->logoDark) ?>"
                                         alt="logo"></a>
                             </div>
-                            <p><?php echo $this->web_model->getTemplateContent('footer', $template)->value; ?></p>
+                            
                         </div>
                     </div>
                 </div>
@@ -99,23 +99,14 @@
                     </div>
                     <br>
                     <div class="row align-items-center supported-payments">
-                        <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-image" src="<?=base_url('assets/dist/img/coinpayments.png')?>">
+                    <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
+                            <img class="payment-image" src="<?=base_url('assets/dist/img/bitcoin.png')?>">
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-image" src="<?=base_url('assets/dist/img/Perfect_Money.png')?>">
+                            <img class="payment-image" src="<?=base_url('assets/dist/img/litecoin.png')?>">
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-image" src="<?=base_url('assets/dist/img/paystack.png')?>">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-cbp-image" src="<?=base_url('assets/dist/img/coinbase.png')?>">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-image" src="<?=base_url('assets/dist/img/paypal.png')?>">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-12 mt-md-30">
-                            <img class="payment-cbp-image" src="<?=base_url('assets/dist/img/payeer.png')?>">
+                            <img class="payment-image" src="<?=base_url('assets/dist/img/momo.png')?>">
                         </div>
                     </div>
                 </div>
