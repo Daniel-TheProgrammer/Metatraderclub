@@ -1206,6 +1206,8 @@ if($refType == 'multiple') {
                                                     </div>
                                                 <?php echo form_close();?>
                                                 <!-- /form -->
+                                                
+
                                             </div>
                                             <!-- /grid item -->
                                             <div class="col-xl-6">
@@ -1318,6 +1320,10 @@ if($refType == 'multiple') {
                                                 </div>
                                             
                                             <?php echo form_close();?>
+                                            <button type="button"
+                                                class="btn btn-primary btn-sm" <?php echo $companyInfo['email_active']==0 ? 'hide' : '' ?> id="broadcastEmail"
+                                                ><?php echo  'Send broadcast email' ?>
+                                            </button>
                                             <!-- Modal -->
                                             <?php echo form_open(base_url( 'settings/testSMS' ) , array( 'id' => 'testSend', 'class' => 'form' ));?>
                                             <div class="modal fade display-n" id="testSMSEmail" tabindex="-1"
@@ -1450,3 +1456,50 @@ if($refType == 'multiple') {
     <script src="<?php echo base_url('/assets/dist/js/settings.js') ?>"></script>
     <script src="<?php echo base_url('/assets/dist/js/intlTelInput.js') ?>"></script>
     <script src="<?php echo base_url('/assets/dist/js/utils.js') ?>"></script>
+    <script >
+        $('#broadcastEmail').click(function(e){
+           // e.preventDefault();
+           $('#broadcastEmail').attr('disabled', true);
+           $('#broadcastEmail').html('Processing...');
+
+            var actionurl = "<?php echo base_url( 'transactions/sendButchEmails' ) ?>";
+           //alert(action);
+                $.ajax({
+                type: "GET",
+                url: actionurl,
+                success: function(result) {
+                    var content = JSON.parse(result);
+                    console.log(content);
+                    if(content.success == false)
+                    {
+                        swal(
+                            content.success == true ? 'Success!' : 'Error!',
+                            content.msg,
+                            content.success == true ? 'Success!' : 'Error!'
+                        );
+                        
+                    }else
+                    {
+                        swal(
+                            content.success == true ? 'Success!' : 'Error!',
+                            content.msg,
+                            content.success == true ? 'Success!' : 'Error!'
+                        );
+                    }
+                    $('#broadcastEmail').attr('disabled', false);
+                    $('#broadcastEmail').html('Rsend broadcast email');
+                },
+                error: function(result) {
+                    swal(
+                        content.success == true ? 'Success!' : 'Error!',
+                        content.msg,
+                        content.success == true ? 'Success!' : 'Error!'
+                    );
+                    $('#broadcastEmail').attr('disabled', true);
+                    $('#broadcastEmail').html('Rsend broadcast email');
+                }
+            })
+        
+        }) 
+
+    </script>

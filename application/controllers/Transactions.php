@@ -2779,5 +2779,73 @@ class Transactions extends BaseController
         
 
     }
+
+    function sendButchEmails()
+    {
+       $users = $this->user_model->getUsers();
+        //var_dump($users);exit;
+       //Send Mail
+       $conditionUserMail = array('tbl_email_templates.type'=>'Broadcast Email');
+       $resultEmail = $this->email_model->getEmailSettings($conditionUserMail);
+
+       $companyInfo = $this->settings_model->getSettingsInfo();
+       
+       foreach ($users as $key => $user) {
+            
+            $this->load->model('user_model');
+            $userInfo = $this->user_model->getUserInfo($user->userId);
+
+            if(!empty($userInfo)){
+                
+                $name  = $userInfo->firstName.' '.$userInfo->lastName;
+                $email = $userInfo->email;
+
+                if($resultEmail->num_rows() > 0)
+                {
+                    $rowUserMailContent = $resultEmail->row();
+                    $splVars = array(
+                        "!clientName"  => $name,
+                        "!companyName" => $companyInfo['name'],
+                        "!address"     => $companyInfo['address'],
+                        "!siteurl"     => base_url(),
+                    );
+
+                    $mailSubject = strtr($rowUserMailContent->mail_subject, $splVars);
+                    $mailContent = strtr($rowUserMailContent->mail_body, $splVars); 	
+
+                    $toEmail = $email;
+                    $fromEmail = $companyInfo['SMTPUser'];
+
+                    $name = 'Support';
+
+                    $header = "From: ". $name . " <" . $fromEmail . ">\r\n"; //optional headerfields
+
+                    $send = $this->sendEmail($toEmail,$mailSubject,$mailContent);
+
+                    $response['success'] = true;
+                    $response['msg'] = 'Emails sent successfully';
+                }
+                else
+                  {
+                    $response['success'] = false;
+                    $response['msg'] = 'Error with email template';
+
+                  }
+            }
+            else 
+              {
+                $response['success'] = false;
+                $response['msg'] = 'Error with user email';
+
+              }
+            
+       }
+
+       echo json_encode($response);
+       
+   
+       
+
+    }
     
 }

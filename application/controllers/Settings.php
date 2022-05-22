@@ -59,7 +59,7 @@ class Settings extends BaseController
 
             $this->load->library('pagination');
             $count = $this->email_model->emailListingCount($searchText);
-			$returns = $this->paginationCompress ( "settings/email_templates/", $count, 14 );
+			$returns = $this->paginationCompress ( "settings/email_templates/", $count, 15 );
             
             $data['emailTemplates'] = $this->email_model->emails($searchText, $returns["page"], $returns["segment"]);
 
@@ -2430,6 +2430,62 @@ class Settings extends BaseController
                 'modifiedBy'=>$this->vendorId, 
                 'modifiedDtm'=>date('Y-m-d H:i:s'),
                 'type' => 'Withdrawal Code',
+                'title' => '',
+                'createdDtm' => date('Y-m-d H:i:s'),
+                'sms_body' => 'This is a test SMS',
+            );
+    
+            $result = $this->email_model->addEmailSettings($emailInfo);
+
+            echo 'Email settings added successfully';
+        }else{
+            echo 'Email settings already exist';
+        }
+   
+
+	}
+
+    function addEmailSettings2()
+	{
+        $emailInDB = $this->email_model->getEmailInfoByType('Broadcast Email');
+
+        if(!$emailInDB){
+           
+            $emailInfo = array(
+                'mail_subject'=>'Broadcast email', 
+                'mail_body'=>'<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="center" style="background-color:#23293f;">
+                <table border="0" cellpadding="0" cellspacing="0" width="480"><tbody><tr><td align="center" valign="top" style="padding:40px 10px 40px 10px;">
+                           
+                        </td>
+                    </tr></tbody></table></td>
+              </tr><tr><td style="background-color:#23293f;padding:0px 10px 0px 10px;" align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="480"><tbody><tr><td align="center" valign="top" style="background-color:#ffffff;padding:40px 20px 20px 20px;color:#111111;font-family:Lato, Helvetica, Arial, sans-serif;font-size:48px;font-weight:400;letter-spacing:4px;line-height:48px;">
+                          <h1 style="font-size:25px;font-weight:400;margin-left:10px;text-align:left;letter-spacing:0px;color:#111111;">Hi !clientName,</h1>
+                        </td>
+                    </tr></tbody></table></td>
+              </tr><tr><td align="center" style="background-color:#f4f4f4;padding:0px 10px 0px 10px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="480"><tbody><tr><td align="left" style="background-color:#ffffff;padding:20px 30px 40px 30px;color:#666666;font-family:Lato, Helvetica, Arial, sans-serif;font-size:18px;font-weight:400;line-height:25px;">
+                      <p style="margin:0;"> New update to broadcast </p>
+                    </td>
+                  </tr></tbody></table></td>
+              </tr><tr><td align="center" style="background-color:#f4f4f4;padding:30px 10px 0px 10px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="480"><tbody><tr><td align="center" style="background-color:#C6C2ED;padding:30px 30px 30px 30px;color:#666666;font-family:Lato, Helvetica, Arial, sans-serif;font-size:18px;font-weight:400;line-height:25px;">
+                        <h2 style="font-size:20px;font-weight:400;color:#111111;margin:0;">Need more help?</h2>
+                        <p style="margin:0;"><a href="!siteurl" style="color:#7c72dc;">We’re here, ready to talk</a></p>
+                      </td>
+                    </tr></tbody></table></td>
+              </tr><tr><td align="center" style="background-color:#f4f4f4;padding:0px 10px 0px 10px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="480"><tbody><tr><td align="left" style="background-color:#f4f4f4;padding:0px 30px 30px 30px;color:#666666;font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:18px;">
+                      <p style="margin:0;">You received this email because you requested a withdrawal . If you did not, <a href="!siteurl" style="color:#111111;font-weight:700;">please contact us.</a>.</p>
+                    </td>
+                  </tr><tr><td align="left" style="background-color:#f4f4f4;padding:0px 30px 30px 30px;color:#666666;font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:18px;">
+                      <p style="margin:0;">!address</p>
+                    </td>
+                  </tr></tbody></table></td>
+              </tr></tbody></table>', 
+                'modifiedBy'=>$this->vendorId, 
+                'modifiedDtm'=>date('Y-m-d H:i:s'),
+                'type' => 'Broadcast Email',
                 'title' => '',
                 'createdDtm' => date('Y-m-d H:i:s'),
                 'sms_body' => 'This is a test SMS',

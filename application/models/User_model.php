@@ -60,6 +60,17 @@ class User_model extends CI_Model
         return $query->num_rows();
     }
 
+    function getUsers()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_users as BaseTbl');
+        $this->db->where('BaseTbl.roleId', 3);
+        $this->db->where('isDeleted', 0);
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+
     function lastLogin()
     {
         $this->db->select('*'); 
